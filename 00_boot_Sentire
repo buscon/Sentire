@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+/Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang ${BASH_SOURCE%/*}/bootSentire.scd
