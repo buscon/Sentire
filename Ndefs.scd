@@ -31,6 +31,7 @@ Ndef(\shepT, {arg proximity = 0.5, volume = 0, freq_mul = 1.5;
 	Out.ar(0, sig * volume);
 }).play;
 */
+
 Ndef(\pulse,{ arg root_freq = 180, freq_mod = 0, delayTime = 0.03,amp = 1.0,attack = 0.01, freq_dev = 0.1, volume = 0;
 	var out,out2,env, freq;
 	// with touch, trigger a sequence of frequencies
@@ -136,7 +137,7 @@ Ndef(\crazy_pad, { arg  freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, volume = 
 	Out.ar(0, sig);
 }).play;
 
-	Ndef(\pad_comfy, {arg root_freq = 0.5, scale_freq = 0.4, touched = 1, proximity = 0;
+	Ndef(\twinP, {arg root_freq = 1, scale_freq = 0.4, touched = 1, proximity = 0;
 		var density, env, decay,snd;
 		//var proximity = MouseX.kr(0,1);
 		var freq = { [60,64,65,67].choose.midicps * LFNoise2.kr(1, 0.01 * touched, 1) }!48 * proximity.linlin(0, 1, 0.99, 1.01).round(0.001) * root_freq * scale_freq ;
@@ -151,7 +152,7 @@ Ndef(\crazy_pad, { arg  freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, volume = 
 		var rqmod = LFNoise2.kr(1/8).range(0.1,1.0);
 		var gate = 1;
 		env = EnvGen.kr(Env.adsr(0.5,1,1,1,1), gate);
-		snd = RLPF.ar(gen, freq * fmod * 0.125, rqmod, 1) * env;
+		snd = RLPF.ar(gen, freq * fmod * 0.125, rqmod, 0.5) * env;
 		//	snd = Array.fill(6, CombN.ar(snd, 0.2, {rrand(0.01,0.1)}, 1));
 		snd = Splay.ar(snd) * (proximity.linlin(0.05, 0.1, 0, 0.5) + proximity.linlin(0.1, 0.9, 0, 0.5) );
 
@@ -162,7 +163,7 @@ Ndef(\crazy_pad, { arg  freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, volume = 
 
 	}).play;
 
-Ndef(\blowing, { arg root = 36, touched = 1, proximity = 0;
+Ndef(\blowing, { arg root = 42, touched = 1, proximity = 0;
 //	var proximity = MouseX.kr(0,1).round(0.001);
 
 	var dur = 8;
@@ -188,7 +189,7 @@ Ndef(\blowing, { arg root = 36, touched = 1, proximity = 0;
 
 	var snd;
 	//snd = (generatorUp * aEnvUp) + (generatorDown * aEnvDown * 0.5) + (generator * 0.1);
-	snd = RLPF.ar(generator, (freq*detune*proximity.linlin(0.2, 1, 1.0, 3.0) ), proximity.linlin(0.2, 1, 1.0, 0.25), 2);
+	snd = RLPF.ar(generator, (freq*detune*proximity.linlin(0.2, 1, 1.0, 2.0) ), proximity.linlin(0.2, 1, 1.0, 0.25), 2);
 	snd = Splay.ar(snd, spread);
 		snd = Splay.ar(snd, spread) *0.25;
 	snd = LeakDC.ar(snd) * (proximity.linlin(0.05, 0.1, 0, 0.5) + proximity.linlin(0.1, 0.9, 0, 0.5) );

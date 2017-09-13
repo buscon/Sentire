@@ -329,32 +329,65 @@ SynthDef(\mod_bubble, { arg proximity = 0, freq = 500, freq_mod =20, volume = 0.
 	sig = sig * volume;
 	Out.ar(0, sig);
 }).add;
+
+	SynthDef(\twinP, {arg root_freq = 1, scale_freq = 0.4, touched = 1, proximity = 1, volume = 1;
+		var density, env, env2, decay,snd;
+		//var proximity = MouseX.kr(0,1);
+		var freq = { [60,64,65,67].choose.midicps * LFNoise2.kr(1, 0.01 * touched, 1) }!48 * proximity.linlin(0, 1, 0.99, 1.01).round(0.001) * root_freq * scale_freq ;
+		//       var freq = { [60,64,65,67].choose.midicps }!24;
+		var gen = LFSaw.ar(
+			freq +
+			SinOsc.ar(proximity.linlin(0, 1, 1, 10),
+				1,//mul: MouseX.kr(0,20)
+			)
+		) * 0.1;
+		var fmod = LFNoise2.kr(1, add:1).range(proximity.linlin(0, 1, 0, 10), proximity.linlin(0, 1, 1, 20)); // modulate filter with mouse
+		var rqmod = LFNoise2.kr(1/8).range(0.1,1.0);
+	env = EnvGen.ar(Env.linen(0.1,0.5,2,1,-4), doneAction: 2);
+		snd = RLPF.ar(gen, freq * fmod * 0.125, rqmod, 1) * env;
+		//	snd = Array.fill(6, CombN.ar(snd, 0.2, {rrand(0.01,0.1)}, 1));
+		snd = Splay.ar(snd) * volume ;
+		Out.ar(0, snd)
+
+	}).add;
+
+
+SynthDef(\blowing, { arg root = 36, touched = 1, proximity = 1, volume = 1;
+//	var proximity = MouseX.kr(0,1).round(0.001);
+var env;
+	var dur = 8;
+	var num = 8;
+	var freq = root.midicps;
+	var spread = rrand(0.4,0.8);
+	var attack = rrand(0.05, 0.3);
+
+
+	// play the cluster
+
+	var harm = Array.geom(num, 1, 1.5);
+	var harma = Array.geom(num, 0.5, 0.8);
+	var detune = Array.fill(num, { LFNoise2.kr(1,0.01 * touched,1) }) * proximity.linlin(0.2, 1, 0.95, 1.05);
+	var source = PinkNoise.ar * SinOsc.ar(freq * detune * 2);
+	var bandwidth = 0.0001 * proximity.linexp(0.3, 1, 200, 0.1);
+	var generator =
+		SinOsc.ar(freq*harm*detune , mul:harma*0.005) +
+	Resonz.ar(source, freq*harm*detune, bandwidth, mul:harma) *
+	50
+//	(bandwidth.reciprocal.poll)
+	;
+
+	var snd;
+	//snd = (generatorUp * aEnvUp) + (generatorDown * aEnvDown * 0.5) + (generator * 0.1);
+	snd = RLPF.ar(generator, (freq*detune*proximity.linlin(0.2, 1, 1.0, 3.0) ), proximity.linlin(0.2, 1, 1.0, 0.25), 2);
+	env = EnvGen.ar(Env.linen(0.1,0.5,2,1,-4), doneAction: 2);
+	snd = Splay.ar(snd, spread);
+		snd = Splay.ar(snd, spread) *0.25;
+	snd = LeakDC.ar(snd) * volume * env;
+	snd = Limiter.ar(snd, 0.9);
+	Out.ar(0, snd);
+}).add;
+
 )
-
-//~wavPath= "/Users/marcello/Music/Samples/Touch/selection/*.wav";
-/*
-~wavFiles = ~wavPath.pathMatch;
-~buffers = ~wavFiles.collect( {|buf| Buffer.readChannel(s, buf, channels:[0])} );
-
-~martin= Buffer.readChannel(s,"/Users/marcello/Music/Samples/MartinLau/martin_nosilence.wav", channels:[0]);
-~rieko1 = Buffer.readChannel(s,"/Users/marcello/Music/Samples/Piano/Inside/stone.wav", channels:[0]);
-~rieko2 = Buffer.readChannel(s,"/Users/marcello/Music/Samples/Piano/Inside/slow_keys.wav", channels:[0]);
-~noise = Buffer.readChannel(s,"/Users/marcello/Music/Samples/musicradar-noise-hiss-crackle-samples/White_Noise_Raw/Modular_Raw_d.wav", channels:[0]);
-
-
-~clara1 = Buffer.readChannel(s, "/Users/marcello/Music/Samples/Touch/selection/touch sound_edit.wav", channels:[0]);
-
-~clara2 = Buffer.readChannel(s, "/Users/marcello/Music/Samples/Touch/selection/touch kurz_edit.wav", channels:[0]);
-
-
-~touchme = Buffer.readChannel(s, "/Users/marcello/Music/Samples/Touch/selection/touchme2.wav", channels:[0]);
-
-~donttouchme = Buffer.readChannel(s, "/Users/marcello/Music/Samples/Touch/selection/donttouchme.wav", channels:[0]);
-
-~rieko3 = Buffer.readChannel(s,"/Users/marcello/Music/Samples/Piano/Inside/bell_plucking.wav", channels:[0]);
-
-*/
-
 
 
 

@@ -16,13 +16,13 @@ sound1 = EZListView.new(w,
 	"Sample1:",
 	[
 		"sound 0, no sound" ->{  ~sound1 = 0; },
-		"sound 1, sinus 4 hi2low" ->{  ~sound1 = 4; },
-		"sound 1b, sinus 3 low2hi" ->{  ~sound1 = 3; },
+		"sound 1, sinus  hi2low" ->{  ~sound1 = 4; },
+		"sound 1b, sinus  low2hi" ->{  ~sound1 = 3; },
 
-		"sound 3, pulse 16" ->{  ~sound1 = 16; },
-		"sound 4, bubble 14" ->{  ~sound1 = 14; },
-		"sound 5, blowing" ->{  ~sound1 = 12; },
-		"sound 6, comfy" ->{  ~sound1 = 23; },
+		"sound 2, pulse 16" ->{  ~sound1 = 16; },
+		"sound 3, bubble 14" ->{  ~sound1 = 14; },
+		"sound 4, blowing 12" ->{  ~sound1 = 12; },
+		"sound 5, twinP 23" ->{  ~sound1 = 23; },
 
 		/*		"sound 5, crackle 19" ->{  ~sound1 = 19; },
 

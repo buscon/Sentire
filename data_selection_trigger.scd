@@ -44,7 +44,7 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 	{ which == 4 } {
 		"freq_root: ".post;
 		~freq_root = ~seq_sinTrig.next.postln;
-        Synth(\sinTrig, [\freq, ~freq_root * 1, \volume, 0.9]);
+		Synth(\sinTrig, [\freq, ~freq_root * 1, \volume, 0.9]);
 
 		// crackle
 		//Synth(\noisePlayer, [\cutoff, exprand(200, 1000), \vol , 0.5, \dur , 0.2, \envelope_sel , 0, \attack , 0.01, \decay_time , 0.2, \curve , -8, \mulNoise , 0.5, \bwr , rrand(0.1,0.4), \which_noise , rrand(3, 5), \speedNoise, rrand(20, 30)]);
@@ -95,8 +95,9 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 		Ndef(\crazy_pad).set(\freqMul2,  rrand(1.0, 5.0).postln);
 	}
 	{ which == 12} {
-		//Synth(\skeys, [\atk, exprand(0.01,0.2), \ratio, Scale.whole.ratios.choose,  \amp, { rrand(0.1, 0.4); }.dup(4), \times, {rrand(0.5, 1.0)}.dup(4), \lpf_freq,  exprand(300, 2000), \fq, exprand(0.15, 0.5)]);
-		Ndef(\blowing).set(\root, (~pentatonic_ratios.next * 36));
+		var freq = ~pentatonic_ratios.next * 42;
+		Ndef(\blowing).set(\root, freq);
+		Synth(\blowing, [\root, freq , \proximity, rrand(0.5, 1.0)]);
 
 
 	}
@@ -111,7 +112,7 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 		var freq;
 		freq = rrand(100, 500).postln;
 		Ndef(\mod_bubble).set(\freq, freq);
-Synth(\mod_bubble, [\freq, freq + rrand(100, 500).postln, \freq_mod, rrand(0, 20), \volume, 0.6]);
+		Synth(\mod_bubble, [\freq, freq + rrand(100, 500).postln, \freq_mod, rrand(0, 20), \volume, 0.6]);
 
 
 	}
@@ -123,11 +124,11 @@ Synth(\mod_bubble, [\freq, freq + rrand(100, 500).postln, \freq_mod, rrand(0, 20
 	}
 	{ which == 16} {
 		var freq;
-	//	Synth(\timpano, [\ress, exprand(0.01, 7), \atk, exprand(0.001, 0.4).postln, \choose, [70,90,120, 150].choose]);
-	//	Synth(\help_Klank, [\i_freq, (Scale.whole.ratios.choose * 100).postln, \harm,Array.geom(4, 1, 1.61)]);
+		//	Synth(\timpano, [\ress, exprand(0.01, 7), \atk, exprand(0.001, 0.4).postln, \choose, [70,90,120, 150].choose]);
+		//	Synth(\help_Klank, [\i_freq, (Scale.whole.ratios.choose * 100).postln, \harm,Array.geom(4, 1, 1.61)]);
 		freq = exprand(100, 1000).postln;
 		Ndef(\pulse).set(\root_freq, freq );
-Synth(\pulse_perc).set(\freq, freq);
+		Synth(\pulse_perc).set(\freq, freq);
 
 	}
 	{ which == 17} {
@@ -152,7 +153,9 @@ Synth(\pulse_perc).set(\freq, freq);
 
 	}
 	{ which == 23} {
-Ndef(\pad_comfy).set(\root_freq, (~pentatonic_ratios.next * 0.75));
+		var freq = ~pentatonic_ratios.next * 1;
+		Ndef(\twinP).set(\root_freq, freq, \proximity, 1);
+		Synth(\twinP, [\root_freq, freq , \proximity, rrand(0.5, 1.0).postln, \volume, 0.5]);
 
 	}
 	{ which == 24} {

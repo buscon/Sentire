@@ -1,4 +1,4 @@
-
+GVerb
 (
 t = Task({
 ~lower_thres = 0.03;
@@ -29,13 +29,15 @@ t = Task({
 ("".resolveRelative++"plotter.scd").load;
 1.wait;
 ProxyChain.add(
-            \freeVerb,  \filter -> { |in| FreeVerb.ar(in, 0.5) },
+//            \freeVerb,  \filter -> { |in| FreeVerb.ar(in, 0.5) },
+            \GVerb,  \filter -> { |in| GVerb.ar(in, 100) },
+
     \limiter,  \filter -> { |in, l_level=1.0| Limiter.ar(in, l_level) },
 );
 
 m = MasterFX.new(server: s,
     numChannels: 8,
-    slotNames: [ \freeVerb, \limiter ],
+    slotNames: [ \GVerb, \limiter ],
     busIndex: 0
 );
 

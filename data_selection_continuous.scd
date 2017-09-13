@@ -18,7 +18,7 @@
 		Ndef(\pulse).set(\volume, 0 );
 		//	Ndef(\vinylCrackling).set(\volume, 0);
 
-		Ndef(\pad_comfy).set(\proximity, 0);
+		Ndef(\twinP).set(\proximity, 0);
 				Ndef(\blowing).set(\proximity, 0);
 
 		//	Ndef(\sinus).set(\freq, val.linlin(0.1, 1, 200, 700) );
@@ -463,17 +463,16 @@
 	{ which == 23} {
 		var time_elpsd;
 
-		Ndef(\pad_comfy).set(\proximity, val);
-
+		Ndef(\twinP).set(\proximity, val);
 
 
 		if(val > threshold, {
 			time_elpsd = Main.elapsedTime.asInt - now;
 			if(time_elpsd > 1, {
-				Ndef(\pad_comfy).set(\touched, (time_elpsd * 0.5).clip2(50).postln);
+				Ndef(\twinP).set(\touched, (time_elpsd * 0.5).clip2(50));
 			});
 		}, {
-				Ndef(\pad_comfy).set(\touched, 1);
+				Ndef(\twinP).set(\touched, 1);
 			});
 
 	}
