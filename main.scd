@@ -1,4 +1,8 @@
-GVerb
+("".resolveRelative++"data_selection_continuous.scd").openOS;
+("".resolveRelative++"ndefs.scd").openOS;
+Ndef(\pulse).set(\volume, 0.5)
+
+Ndef(\pulse).get(\volume)
 (
 t = Task({
 ~lower_thres = 0.03;

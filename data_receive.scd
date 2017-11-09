@@ -4,7 +4,7 @@
 
 ~transmit = Ndef(\transmit, {
 	var out = SinOsc.ar(SampleRate.ir/4);
-	Out.ar(3, out * 0.3);
+	Out.ar(2, out * 0.3);
 }).play;
 
 /* test:
