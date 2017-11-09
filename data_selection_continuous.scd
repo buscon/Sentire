@@ -74,13 +74,13 @@
 
 		Ndef(\softSin).set(\which, 1);
 		// close session, a lot happens in the low range (0-0.3), it should change more the sound
-		Ndef(\softSin).set(\proximity, val.linlin(0.1, 0.8, 0, 1));
+		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.8, 0, 1));
 
 		// far session
 		//	Ndef(\softSin).set(\proximity, val.linlin(0, 0.9, 0, 1));
 
 		//		Ndef(\softSin).set(\proximity, val.explin(0.001, 0.8, 0, 1));
-		Ndef(\softSin).set(\volume, val.linlin(0, 0.03, 0, 0.7));
+		Ndef(\softSin).set(\volume, val.linlin(0, 0.001, 0, 0.7));
 		Ndef(\softSin).set(\root, ~freq_root);
 
 		if(val > threshold, {

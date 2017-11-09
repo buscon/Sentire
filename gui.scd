@@ -7,9 +7,9 @@ sender = NetAddr("127.0.0.1", 57120);
 sender.sendMsg("/start", 1);
 w=FlowView.new(windowTitle:"Send OSC", bounds:Rect(400,500,400, 500));
 
-csFreq=EZSlider(w, label:"touch ", controlSpec:[0.0, 1.0, \lin, 0.01, 0], action:{|mv| Ndef(\receive).set(\touch_slider,  mv.value); }, initVal:0);
+csFreq=EZSlider(w, label:"touch ", controlSpec:[0.01, 2.0, \lin, 0.001, 0.010], action:{|mv| Ndef(\receive).set(\touch_slider,  mv.value); }, initVal:0);
 
-upperLowerThres = EZRanger(w, 400@16, "sig thres", [0.01, 2.0, \lin, 0.01, 0.01], {|v| ~lower_thres = v.value[0]; ~upper_thres = v.value[1];}, [~lower_thres, ~upper_thres ], unitWidth:30);
+upperLowerThres = EZRanger(w, 400@16, "sig thres", [0.001, 2.001, \lin, 0.001, 0.011], {|v| ~lower_thres = v.value[0]; ~upper_thres = v.value[1];}, [~lower_thres, ~upper_thres ], unitWidth:30);
 
 sound1 = EZListView.new(w,
 	300@250,

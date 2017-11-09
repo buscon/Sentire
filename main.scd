@@ -1,5 +1,14 @@
 ("".resolveRelative++"data_selection_continuous.scd").openOS;
 ("".resolveRelative++"ndefs.scd").openOS;
+("".resolveRelative++"synths_toLoad.scd").openOS;
+	("".resolveRelative++"data_receive.scd").openOS;
+("".resolveRelative++"gui.scd").openOS;
+~lower_thres = 0.05
+/*
+preamp
+1.
+2. 10 preamp, sig thres to 0.06
+*/
 Ndef(\pulse).set(\volume, 0.5)
 
 Ndef(\pulse).get(\volume)
@@ -32,6 +41,7 @@ t = Task({
 
 ("".resolveRelative++"plotter.scd").load;
 1.wait;
+
 ProxyChain.add(
 //            \freeVerb,  \filter -> { |in| FreeVerb.ar(in, 0.5) },
             \GVerb,  \filter -> { |in| GVerb.ar(in, 100) },
@@ -42,7 +52,7 @@ ProxyChain.add(
 m = MasterFX.new(server: s,
     numChannels: 8,
     slotNames: [ \GVerb, \limiter ],
-    busIndex: 0
+		busIndex: 0
 );
 
 Spec.add(\l_level, [0.1, 1.0, \exp]);
