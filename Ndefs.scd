@@ -79,6 +79,7 @@ Ndef(\softSin, { arg out = 0, proximity = 0.38, root = 53, volume = 0, lfoRate =
 	//ratios = [86, 82, 79, 73, 72, 70, 66, 60, 59,58,55, 53 ]/53;//Scale.major.ratios;
 	//	ratios = [86, 82, 79, 73, 72, 70, 66, 60, 59,58,55, 53 ]/53;//Scale.major.ratios;
 
+
 	ratios = [86, 82, 79, 73, 72, 70, 66, 60, 59,58,55, 53 ]/53;//Scale.major.ratios;
 	ratios = SelectX.kr(which, [ratios, ratios.reverse]);
 
