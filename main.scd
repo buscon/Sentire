@@ -3,6 +3,8 @@
 ("".resolveRelative++"synths_toLoad.scd").openOS;
 	("".resolveRelative++"data_receive.scd").openOS;
 ("".resolveRelative++"gui.scd").openOS;
+("".resolveRelative++"data_selection_trigger.scd").openOS;
+
 ~lower_thres = 0.05
 /*
 preamp

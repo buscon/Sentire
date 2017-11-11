@@ -32,7 +32,7 @@ Out.ar(0, sig * volume);
 }).play;
 */
 
-Ndef(\pulse,{ arg out = 0, root_freq = 180, freq_mod = 0, dellowayTime = 0.03,amp = 1.0,attack = 0.01, freq_dev = 0.1, volume = 0;
+Ndef(\pulse,{ arg out = 0, root_freq = 180, freq_mod = 0, delayTime = 0.03,amp = 1.0,attack = 0.01, freq_dev = 0.1, volume = 0;
 	var ausgang,out2,env, freq;
 	// with touch, trigger a sequence of frequencies
 	freq = root_freq + freq_mod;

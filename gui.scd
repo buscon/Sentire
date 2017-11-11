@@ -1,5 +1,6 @@
 
 
+
 (
 
 var w, amp, freq, csAmp, csFreq, sender, sound1, sound2, upperLowerThres, touching, untouch, touch_routine;
