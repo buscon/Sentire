@@ -32,7 +32,7 @@ Out.ar(0, sig * volume);
 }).play;
 */
 
-Ndef(\pulse,{ arg out = 0, root_freq = 180, freq_mod = 0, delayTime = 0.03,amp = 1.0,attack = 0.01, freq_dev = 0.1, volume = 0;
+Ndef(\pulse,{ arg  root_freq = 200, freq_mod = 0, delayTime = 0.03,amp = 1.0,attack = 0.01, freq_dev = 0.1, volume = 0;
 	var ausgang,out2,env, freq;
 	// with touch, trigger a sequence of frequencies
 	freq = root_freq + freq_mod;
@@ -44,11 +44,11 @@ Ndef(\pulse,{ arg out = 0, root_freq = 180, freq_mod = 0, delayTime = 0.03,amp =
 	ausgang = Pan2.ar(z, SinOsc.kr(5,1.0pi), 0.1 ) + a;
 	ausgang = ausgang.clip2(1) * 0.25 * volume;
 
-	Out.ar(out, ausgang);
+	Out.ar(~output, ausgang);
 }).play;
 
 // modulating formant frequency
-Ndef(\mod_bubble, { arg out = 0, proximity = 0, freq = 500, freq_mod =0, volume = 0.5, decaytime = 0, delaytime = 0;
+Ndef(\mod_bubble, { arg  proximity = 0, freq = 500, freq_mod =0, volume = 0.5, decaytime = 0, delaytime = 0;
 	var in, sig;
 	//	proximity = MouseX.kr(0.0, 1.0);
 	freq = freq + proximity.linlin(0, 1, 0, 100);
@@ -66,11 +66,11 @@ Ndef(\mod_bubble, { arg out = 0, proximity = 0, freq = 500, freq_mod =0, volume 
 	sig = Pan2.ar(sig, SinOsc.kr(5,1.0pi), 0.8);
 
 	sig = sig *proximity.linlin(0.0, 0.1, 0.0, 1.0) * volume;
-	Out.ar(out, sig);
+	Out.ar(~output, sig);
 }).play;
 //([86, 82, 79, 73, 72, 70, 66, 60, 59,58,55, 53 ]/53).reverse
 
-Ndef(\softSin, { arg out = 0, proximity = 0.38, root = 53, volume = 0, lfoRate = 1, lfoAmt = 0, which = 0;
+Ndef(\softSin, { arg  proximity = 0.38, root = 53, volume = 0, lfoRate = 1, lfoAmt = 0, which = 0;
 	var sig, scale, list, ratios, ratios_reversed;
 	//proximity = MouseX.kr(0, 1);
 	// desc scale b (Boram)
@@ -114,11 +114,11 @@ Ndef(\softSin, { arg out = 0, proximity = 0.38, root = 53, volume = 0, lfoRate =
 	//			sig = Splay.ar(sig);
 	sig = Pan2.ar(sig, SinOsc.kr(5,1.0pi), 0.1 );
 
-	Out.ar(out, sig * volume);
+	Out.ar(~output, sig * volume);
 
 }).play;
 
-Ndef(\crazy_pad, { arg  out = 0, freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, volume = 0, mulNoiseFreq = 0.5, mulNoiseFreq2 = 0.1;
+Ndef(\crazy_pad, { arg   freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, volume = 0, mulNoiseFreq = 0.5, mulNoiseFreq2 = 0.1;
 	var sig;
 	var scale = Scale.choose;
 	var freq = { [ 261.6255653006, 321.50005749269, 644.02146481203, 834.95751705018].choose  * freqMul2 * LFNoise2.kr(1,0.01 * Lag3UD.kr(mulNoiseFreq + mulNoiseFreq2, 0, 0),1) }!24;
@@ -133,10 +133,10 @@ Ndef(\crazy_pad, { arg  out = 0, freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, 
 
 	sig = Limiter.ar(sig);
 	sig = LeakDC.ar(sig);
-	Out.ar(out, sig);
+	Out.ar(~output, sig);
 }).play;
 
-Ndef(\twinP, {arg out = 0, root_freq = 1, scale_freq = 0.4, touched = 1, proximity = 0;
+Ndef(\twinP, {arg  root_freq = 1, scale_freq = 0.4, touched = 1, proximity = 0;
 	var density, env, decay,snd;
 	//var proximity = MouseX.kr(0,1);
 	var freq = { [60,64,65,67].choose.midicps * LFNoise2.kr(1, 0.01 * touched, 1) }!48 * proximity.linlin(0, 1, 0.99, 1.01).round(0.001) * root_freq * scale_freq ;
@@ -158,11 +158,11 @@ Ndef(\twinP, {arg out = 0, root_freq = 1, scale_freq = 0.4, touched = 1, proximi
 
 
 	snd =   Splay.ar(snd);
-	Out.ar(out, snd)
+	Out.ar(~output, snd)
 
 }).play;
 
-Ndef(\blowing, { arg out = 0, root = 42, touched = 1, proximity = 0;
+Ndef(\blowing, { arg  root = 42, touched = 1, proximity = 0;
 	//	var proximity = MouseX.kr(0,1).round(0.001);
 
 	var dur = 8;
@@ -193,11 +193,11 @@ Ndef(\blowing, { arg out = 0, root = 42, touched = 1, proximity = 0;
 	snd = Splay.ar(snd, spread) *0.25;
 	snd = LeakDC.ar(snd) * (proximity.linlin(0.01, 0.1, 0, 0.5) + proximity.linlin(0.05, 0.9, 0, 0.5) );
 	snd = Limiter.ar(snd, 0.9);
-	Out.ar(out, snd);
+	Out.ar(~output, snd);
 }).play;
 
 /*
-Ndef(\vinylCrackling, { arg out = 0, proximity, root_freq = 0, noiseFreqMul = 1, volume = 0, which = 0, combSpeed = 0.5;
+Ndef(\vinylCrackling, { arg outbus = 0, proximity, root_freq = 0, noiseFreqMul = 1, volume = 0, which = 0, combSpeed = 0.5;
 
 var pop, imp, modImp, midNoise, hiNoise, loNoise, loopTime, numChan,w, x, y, trigPop, sig, combSig;
 
@@ -257,7 +257,7 @@ combSig = Array.fill(6, {CombC.ar(sig, 0.5, SinOsc.kr(LFNoise0.kr(rrand(0.1, 0.5
 sig = SelectX.ar(which, [sig, combSig]);
 sig = LPF.ar(sig, 18000);
 sig = LeakDC.ar(sig);
-Out.ar(out,sig * volume
+Out.ar(~output,sig * volume
 //	imp + pop
 //	DecodeB2.ar(numChan, w, x, y) +  imp + modImp + midNoise + hiNoise + loNoise
 
@@ -327,7 +327,7 @@ sig=Splay.ar(sig,0.5);
 
 
 
-Out.ar(out, vol * ((sig+sig2))!2);
+Out.ar(~output, vol * ((sig+sig2))!2);
 
 }).play;
 
@@ -395,7 +395,7 @@ output = LeakDC.ar(output);
 //	output = GVerb.ar(output, 200, 3):
 output = Mix.new(output);
 
-OffsetOut.ar(out, Limiter.ar(Pan2.ar(output, pan, 1), 0.9));
+OffsetOut.ar(~output, Limiter.ar(Pan2.ar(output, pan, 1), 0.9));
 }, [\ir]).play;
 
 Ndef(\fm_perc, {arg volume = 0, speed = 5, freq = 0.1, freq_root = 0.1;

@@ -1,21 +1,30 @@
-("".resolveRelative++"data_selection_continuous.scd").openOS;
-("".resolveRelative++"ndefs.scd").openOS;
-("".resolveRelative++"synths_toLoad.scd").openOS;
-	("".resolveRelative++"data_receive.scd").openOS;
-("".resolveRelative++"gui.scd").openOS;
-("".resolveRelative++"data_selection_trigger.scd").openOS;
 
-~lower_thres = 0.05
+
+
 /*
+1. 1. hi2low
+2. 3. bubble joern
+3. 4. blowing delph
+4. 3. pulse Dasha
+5. 6. twinP Fan
+6. 2. low2hi Quan
+
+comments:
+less interaction with hands
+find other trajectories of movement?
+stay longer in touch
+
 preamp
-1.
-2. 10 preamp, sig thres to 0.06
+1. 24 preamp, sig thres 0.030 -  17 for touching
+2. 10 preamp, sig thres to 0.8
 */
 Ndef(\pulse).set(\volume, 0.5)
 
 Ndef(\pulse).get(\volume)
+
 (
 t = Task({
+	~output = 0;
 ~lower_thres = 0.03;
 ~upper_thres = 1.0;
 ~touch_thres = 0.95;
@@ -54,14 +63,19 @@ ProxyChain.add(
 m = MasterFX.new(server: s,
     numChannels: 8,
     slotNames: [ \GVerb, \limiter ],
-		busIndex: 0
+		busIndex: ~output
 );
+
 
 Spec.add(\l_level, [0.1, 1.0, \exp]);
 Spec.add(\l_level, [0.1, 1.0, \exp]);
 
 m.gui;
+s.meter;
+	s.freqscope;
 	~receive.set(\test, 0);
 	"=============DONE=============".postln;
 },AppClock).start;
 )
+
+		Ndef(\pulse).set(\root_freq, 200 );

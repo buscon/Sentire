@@ -3,7 +3,7 @@
 (
 
 
-SynthDef(\glitch_sounds, { arg outbus = 0, modN = 0.5, modF = 0, modAmp1 = 0, modAmp2 = 1, modAmp3 = 1, modC = 1, gpos = 0,  master_volume = 0;
+SynthDef(\glitch_sounds, { arg  modN = 0.5, modF = 0, modAmp1 = 0, modAmp2 = 1, modAmp3 = 1, modC = 1, gpos = 0,  master_volume = 0;
 	var chain, snd;
 
 	snd = BPF.ar(WhiteNoise.ar(mul: SinOsc.ar(modF,phase:Rand (0,pi), mul:Rand( 0.1,1) )),modAmp1 * modAmp2 * modAmp3 *  Rand(0,400) * modN  )!2
@@ -19,11 +19,11 @@ SynthDef(\glitch_sounds, { arg outbus = 0, modN = 0.5, modF = 0, modAmp1 = 0, mo
 	//snd = GVerb.ar(snd, 5, 0.83423432, 0.5, spread:15, mul:0.2);
 	snd = Pan2.ar(snd, gpos);
 	snd = LeakDC.ar(snd) * 0.05;
-	Out.ar(outbus, snd * master_volume).clip2(0.5);
+	Out.ar(~output, snd * master_volume).clip2(0.5);
 
 }).add;
 
-SynthDef(\glitch_sounds_perc, { arg outbus = 0, modN = 0.5, modF = 0, modAmp1 = 0, modAmp2 = 1, modAmp3 = 1, modC = 1, gpos = 0,  master_volume = 0;
+SynthDef(\glitch_sounds_perc, { arg  modN = 0.5, modF = 0, modAmp1 = 0, modAmp2 = 1, modAmp3 = 1, modC = 1, gpos = 0,  master_volume = 0;
 	var chain, snd;
 
 	snd = BPF.ar(WhiteNoise.ar(mul: SinOsc.ar(modF,phase:Rand (0,pi), mul:Rand( 0.1,1) )),modAmp1 * modAmp2 * modAmp3 *  Rand(0,400) * modN  )!2
@@ -40,11 +40,11 @@ SynthDef(\glitch_sounds_perc, { arg outbus = 0, modN = 0.5, modF = 0, modAmp1 = 
 	//snd = GVerb.ar(snd, 5, 0.83423432, 0.5, spread:15, mul:0.2);
 	snd = Pan2.ar(snd, gpos);
 	snd = LeakDC.ar(snd) * 0.05;
-	Out.ar(outbus, snd * master_volume).clip2(0.5);
+	Out.ar(~output, snd * master_volume).clip2(0.5);
 
 }).add;
 
-SynthDef(\skeys, { |freq_mul = 0.6, atk = 0.01, ratio = 1, amp = #[1,1,1,1], times = #[1,1,1,1], lpf_freq = 500, fq = 0.3|
+SynthDef(\skeys, { arg  freq_mul = 0.6, atk = 0.01, ratio = 1, amp = #[1,1,1,1], times = #[1,1,1,1], lpf_freq = 500, fq = 0.3;
 	var sig, env;
 	env = EnvGen.ar( Env.new([0, 1, 0], [atk, atk.linlin(0.01,0.4, 0.4, 1.0)], [4, -16]), doneAction:2);
 	sig = Klank.ar(`[([200, 671, 1153, 1723] * ratio  * freq_mul), amp , times ], BrownNoise.ar([0.007, 0.007]) * env );
@@ -52,7 +52,7 @@ SynthDef(\skeys, { |freq_mul = 0.6, atk = 0.01, ratio = 1, amp = #[1,1,1,1], tim
 	Out.ar(0, sig);
 }).add;
 
-SynthDef(\noisePlayer, { |out = 0, gate = 1, speed = 1, pos = 0, cutoff = 200, vol = 0.5, dur = 0.1, envelope_sel = 0, attack = 0.01, decay_time = 1, curve = -4, mulNoise = 0.1, bwr = 2, which_noise = 0, speedNoise = 10, gpos = 0|
+SynthDef(\noisePlayer, { arg  gate = 1, speed = 1, pos = 0, cutoff = 200, vol = 0.5, dur = 0.1, envelope_sel = 0, attack = 0.01, decay_time = 1, curve = -4, mulNoise = 0.1, bwr = 2, which_noise = 0, speedNoise = 10, gpos = 0;
 	var audio, rate,  env;
 
 	env = 		Select.ar( envelope_sel,
@@ -68,10 +68,10 @@ SynthDef(\noisePlayer, { |out = 0, gate = 1, speed = 1, pos = 0, cutoff = 200, v
 	audio = Pan2.ar(audio, gpos);
 
 
-	Out.ar(out, audio * env * vol *4);
+	Out.ar(~output, audio * env * vol *4);
 }).add;
 
-SynthDef(\noisePlayerContinuous, { |out = 0, gate = 1, speed = 1, pos = 0, cutoff = 200, vol = 0.5, dur = 0.1, envelope_sel = 0, attack = 0.01, decay_time = 1, curve = -4, mulNoise = 0.1, bwr = 2, which_noise = 0, speedNoise = 10|
+SynthDef(\noisePlayerContinuous, { arg out = ~output, gate = 1, speed = 1, pos = 0, cutoff = 200, vol = 0.5, dur = 0.1, envelope_sel = 0, attack = 0.01, decay_time = 1, curve = -4, mulNoise = 0.1, bwr = 2, which_noise = 0, speedNoise = 10;
 	var audio, rate,  env;
 
 
@@ -81,10 +81,10 @@ SynthDef(\noisePlayerContinuous, { |out = 0, gate = 1, speed = 1, pos = 0, cutof
 	audio = LeakDC.ar(audio);
 	audio = Pan2.ar(audio, LFNoise0.kr(1).range(-0.5, 0.5));
 
-	Out.ar(out, audio * vol *4);
+	Out.ar(~output, audio * vol *4);
 }).add;
 
-SynthDef(\wavPlayer, { |out = 0, bufnum = 0, gate = 1, speed = 1, pos = 0, cutoff = 200, vol = 0.5, dur = 0.1, envelope_sel = 0, attack = 0.01, decay_time = 1, curve = -4, gpos= 0|
+SynthDef(\wavPlayer, { |bufnum = 0, gate = 1, speed = 1, pos = 0, cutoff = 200, vol = 0.5, dur = 0.1, envelope_sel = 0, attack = 0.01, decay_time = 1, curve = -4, gpos= 0|
 	var audio, rate,  env;
 	// randomize position
 	//pos = TRand.kr(0,1,gate)
@@ -109,7 +109,7 @@ SynthDef(\wavPlayer, { |out = 0, bufnum = 0, gate = 1, speed = 1, pos = 0, cutof
 	audio = Pan2.ar(audio, gpos);
 
 	// SendTrig.kr(gate,0,bufnum);
-	Out.ar(out, audio * env * vol);
+	Out.ar(~output, audio * env * vol);
 }).add;
 
 /*
@@ -146,7 +146,7 @@ sig = Mix.new(ausgang).softclip(0.9);
 //sig = XFade2.ar(ausgang, reverbered, drywet);
 sig = Pan2.ar(sig, pan + LFNoise0.kr(1, mulPan));
 sig = LeakDC.ar(sig);
-Out.ar(out, sig * volume  );
+Out.ar(~output, sig * volume  );
 
 }).add;
 
@@ -170,12 +170,12 @@ Out.ar(0, grains * volume)
 
 */
 SynthDef(\timpano,
-	{arg ress = 0, choose = 0, volume = 1, atk = 0;
+	{arg  ress = 0, choose = 0, volume = 1, atk = 0;
 		var klank, env;
 		klank = Klank.ar(`[choose !12, {Rand(0.128,0.700)}!12],BrownNoise.ar(0.3));
 		klank = klank;
 		env = EnvGen.kr(Env.perc(atk, ress), doneAction:2);
-		Out.ar(0, klank*env.dup*0.00128*volume);
+		Out.ar(~output, klank*env.dup*0.00128*volume);
 }).add;
 
 SynthDef(\crazy_pad_perc, { arg  freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, volume = 0, mulNoiseFreq = 0.5, mulNoiseFreq2 = 0.1, releaseEnv = 1;
@@ -194,7 +194,7 @@ SynthDef(\crazy_pad_perc, { arg  freqMul = 0.6, freqMul2 = 1, master_vol = 0.5, 
 
 	sig = Limiter.ar(sig);
 	sig = LeakDC.ar(sig);
-	Out.ar(0, sig);
+	Out.ar(~output, sig);
 }).add;
 
 SynthDef(\wedSynth,{arg 	midinote=60,
@@ -249,7 +249,7 @@ SynthDef(\wedSynth,{arg 	midinote=60,
 	y/4);
 
 	/////////Output//////////////
-	Out.ar(0,
+	Out.ar(~output,
 		Mix.ar([
 			drone*dronelvl,
 			FreeVerb.ar(drone*dronelvl,
@@ -267,7 +267,7 @@ SynthDef(\wedSynth,{arg 	midinote=60,
 	);
 }).add;
 
-SynthDef(\risset, {|out = 0, pan = 0, freq = 400, amp = 0.1, dur = 2, gate = 1|
+SynthDef(\risset, { arg  pan = 0, freq = 400, amp = 0.1, dur = 2, gate = 1;
 	var amps = #[1, 0.67, 1, 1.8, 2.67, 1.67, 1.46, 1.33, 1.33, 1, 1.33];
 	var durs = #[1, 0.9, 0.65, 0.55, 0.325, 0.35, 0.25, 0.2, 0.15, 0.1, 0.075];
 	var frqs = #[0.56, 0.56, 0.92, 0.92, 1.19, 1.7, 2, 2.74, 3, 3.76, 4.07];
@@ -278,7 +278,7 @@ SynthDef(\risset, {|out = 0, pan = 0, freq = 400, amp = 0.1, dur = 2, gate = 1|
 		SinOsc.ar(freq*frqs[i] + dets[i], 0, amp*env);
 	});
 	src = src * doneActionEnv * 0.5; // make sure it releases node after the end.
-	Out.ar(out, Pan2.ar(src, pan));
+	Out.ar(~output, Pan2.ar(src, pan));
 }).add;
 
 SynthDef(\sinTrig, { arg  freq = 58, volume = 0.5;
@@ -293,11 +293,11 @@ SynthDef(\sinTrig, { arg  freq = 58, volume = 0.5;
 	sig = Splay.ar(sig);
 	sig = LeakDC.ar(sig);
 	sig = HPF.ar(sig, 40);
-	Out.ar(0, sig * volume);
+	Out.ar(~output, sig * volume);
 
 }).add;
 
-SynthDef(\pulse_perc,{ arg freq = 180,delayTime = 0.03,amp = 1.0,attack = 0.01;
+SynthDef(\pulse_perc,{ arg  freq = 180,delayTime = 0.03,amp = 1.0,attack = 0.01;
 	var out,out2,env;
 	// with touch, trigger a sequence of frequencies
 	freq = freq;
@@ -309,9 +309,9 @@ SynthDef(\pulse_perc,{ arg freq = 180,delayTime = 0.03,amp = 1.0,attack = 0.01;
 	out = Pan2.ar(out, SinOsc.kr(5,1.0pi), 0.1 );
 
 	out = out.clip2(1);
-	//	out = FreeVerb.ar(out,0.7,1.0,0.4, amp);
-	//	DetectSilence.ar(out, doneAction:2);
-	Out.ar(0, out);
+	//	out = FreeVerb.ar(~output,0.7,1.0,0.4, amp);
+	//	DetectSilence.ar(~output, doneAction:2);
+	Out.ar(~output, out);
 }).add;
 
 SynthDef(\mod_bubble, { arg proximity = 0, freq = 500, freq_mod =20, volume = 0.5;
@@ -328,7 +328,7 @@ SynthDef(\mod_bubble, { arg proximity = 0, freq = 500, freq_mod =20, volume = 0.
 	sig = Pan2.ar(sig, SinOsc.kr(LFNoise0.kr(1).range(1.0, 5.0),1.0pi), 1);
 
 	sig = sig * volume;
-	Out.ar(0, sig);
+	Out.ar(~output, sig);
 }).add;
 
 SynthDef(\twinP, {arg root_freq = 1, scale_freq = 0.4, touched = 1, proximity = 1, volume = 1;
@@ -348,12 +348,12 @@ SynthDef(\twinP, {arg root_freq = 1, scale_freq = 0.4, touched = 1, proximity = 
 	snd = RLPF.ar(gen, freq * fmod * 0.125, rqmod, 1) * env;
 	//	snd = Array.fill(6, CombN.ar(snd, 0.2, {rrand(0.01,0.1)}, 1));
 	snd = Splay.ar(snd) * volume ;
-	Out.ar(0, snd)
+	Out.ar(~output, snd)
 
 }).add;
 
 
-SynthDef(\blowing, { arg root = 36, touched = 1, proximity = 1, volume = 1;
+SynthDef(\blowing, { arg  root = 36, touched = 1, proximity = 1, volume = 1;
 	//	var proximity = MouseX.kr(0,1).round(0.001);
 	var env;
 	var dur = 8;
@@ -385,7 +385,7 @@ SynthDef(\blowing, { arg root = 36, touched = 1, proximity = 1, volume = 1;
 	snd = Splay.ar(snd, spread) *0.25;
 	snd = LeakDC.ar(snd) * volume * env;
 	snd = Limiter.ar(snd, 0.9);
-	Out.ar(0, snd);
+	Out.ar(~output, snd);
 }).add;
 
 )

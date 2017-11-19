@@ -74,7 +74,7 @@
 
 		Ndef(\softSin).set(\which, 1);
 		// close session, a lot happens in the low range (0-0.3), it should change more the sound
-		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.8, 0.1, 1));
+		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.4, 0.1, 1));
 
 		// far session
 		//	Ndef(\softSin).set(\proximity, val.linlin(0, 0.9, 0, 1));
@@ -102,7 +102,7 @@
 		Ndef(\softSin).set(\which, 0);
 
 		// close session, a lot happens in the low range (0-0.3), it should change more the sound
-		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.8, 0, 1));
+		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.4, 0, 1));
 
 		// far session
 		//	Ndef(\softSin).set(\proximity, val.linlin(0, 0.9, 0, 1));
@@ -249,7 +249,7 @@
 		var time_elpsd;
 
 		Ndef(\drone).set(\vol, val.linlin(0, 0.05, 0, 1) );
-		Ndef(\drone).set(\freq_mul,  val.linlin(0.2, 1, 0.5, 0.8).postln );
+		Ndef(\drone).set(\freq_mul,  val.linlin(0.2, 1, 0.5, 0.8) );
 
 		//Ndef(\drone).set(\lpf_freq, ((time_elpsd * 1) + 1000).postln);
 
@@ -259,9 +259,9 @@
 			//		Ndef(\drone).set(\vol, 0.25);
 			//		Ndef(\drone).set(\dev, time_elpsd * 0.05);
 			if(time_elpsd > 3, {
-				Ndef(\drone).set(\freq_mul, ( 0.7 + (time_elpsd * 0.005)).clip2(2.0).postln);
+				Ndef(\drone).set(\freq_mul, ( 0.7 + (time_elpsd * 0.005)).clip2(2.0));
 
-				Ndef(\drone).set(\lpf_freq, ((time_elpsd * 1) + 1000).postln);
+				Ndef(\drone).set(\lpf_freq, ((time_elpsd * 1) + 1000));
 			});
 
 		});
@@ -294,7 +294,7 @@
 		if(val > threshold, {
 			time_elpsd = Main.elapsedTime.asInt - now;
 			if(time_elpsd > 3, {
-				Ndef(\blowing).set(\touched, (time_elpsd * 1).clip2(100).postln);
+				Ndef(\blowing).set(\touched, (time_elpsd * 1).clip2(100));
 			});
 		}, {
 			Ndef(\blowing).set(\touched, 1);
@@ -384,7 +384,7 @@
 			time_elpsd = Main.elapsedTime.asInt - now;
 			if(time_elpsd > 1, {
 				//			Ndef(\pulse).set(\delayTime, ((time_elpsd * 0.01) +0.03  ).clip2(1.0));
-				Ndef(\pulse).set(\freq_dev, ((time_elpsd * 0.1) +0.01  ).clip2(10.0));
+				Ndef(\pulse).set(\freq_dev, ((time_elpsd * 0.3) +0.01  ).clip2(10.0));
 
 			}, {
 				Ndef(\pulse).set(\delayTime, 0.03);
@@ -469,7 +469,7 @@
 		if(val > threshold, {
 			time_elpsd = Main.elapsedTime.asInt - now;
 			if(time_elpsd > 1, {
-				Ndef(\twinP).set(\touched, (time_elpsd * 0.5).clip2(50));
+				Ndef(\twinP).set(\touched, (time_elpsd * 2.5).clip2(50));
 			});
 		}, {
 				Ndef(\twinP).set(\touched, 1);
