@@ -14,7 +14,7 @@
 */
 ~receive = Ndef(\receive, {|test =0, touch_slider  = 0|
 	var sig,filt,amp=0;
-	sig = SoundIn.ar(1);
+	sig = SoundIn.ar(0);
 	filt = BLowPass4.ar(sig, SampleRate.ir/4, 0.004);
 	amp = Amplitude.kr(filt, 0.01, 0.1, 1);
 	amp = Select.kr(test, [amp , MouseX.kr(), touch_slider]);

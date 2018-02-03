@@ -15,13 +15,16 @@ find other trajectories of movement?
 stay longer in touch
 
 preamp
-1. 24 preamp, sig thres 0.030 -  17 for touching
+1. 28 preamp, sig thres 0.030 -  18 for touching
 2. 10 preamp, sig thres to 0.8
+
+0.052 threshold
+
 */
 Ndef(\pulse).set(\volume, 0.5)
 
 Ndef(\pulse).get(\volume)
-
+MasterEQ.new
 (
 t = Task({
 	~output = 0;

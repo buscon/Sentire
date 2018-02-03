@@ -112,7 +112,7 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 		var freq;
 		freq = rrand(100, 500).postln;
 		Ndef(\mod_bubble).set(\freq, freq);
-		Synth(\mod_bubble, [\freq, freq + rrand(100, 500).postln, \freq_mod, rrand(0, 20), \volume, 0.6]);
+		Synth(\mod_bubble, [\freq, freq + rrand(100, 500).postln, \freq_mod, rrand(0, 20), \volume, 0.4]);
 
 
 	}
@@ -155,7 +155,7 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 	{ which == 23} {
 		var freq = ~pentatonic_ratios.next * 1;
 		Ndef(\twinP).set(\root_freq, freq, \proximity, 1);
-		Synth(\twinP, [\root_freq, freq , \proximity, rrand(0.5, 1.0).postln, \volume, 0.5]);
+		Synth(\twinP, [\root_freq, freq , \proximity, rrand(0.5, 1.0).postln, \volume, 0.4]);
 
 	}
 	{ which == 24} {

@@ -17,6 +17,7 @@
 		Ndef(\mod_bubble).set(\volume, 0 );
 		Ndef(\pulse).set(\volume, 0 );
 		//	Ndef(\vinylCrackling).set(\volume, 0);
+	//Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.6, 0, 1).postln);
 
 		Ndef(\twinP).set(\proximity, 0);
 				Ndef(\blowing).set(\proximity, 0);
@@ -74,10 +75,11 @@
 
 		Ndef(\softSin).set(\which, 1);
 		// close session, a lot happens in the low range (0-0.3), it should change more the sound
-		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.4, 0.1, 1));
+		//Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.9, 0.1, 1));
+//		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.4, 0, 1).postln);
 
 		// far session
-		//	Ndef(\softSin).set(\proximity, val.linlin(0, 0.9, 0, 1));
+			Ndef(\softSin).set(\proximity, val.linlin(0, 0.8, 0, 1));
 
 		//		Ndef(\softSin).set(\proximity, val.explin(0.001, 0.8, 0, 1));
 		Ndef(\softSin).set(\volume, val.linlin(0, 0.001, 0, 0.7));
@@ -98,14 +100,14 @@
 	}
 	{ which == 4 } {
 		var time_elpsd;
-
+//val.postln;
 		Ndef(\softSin).set(\which, 0);
 
 		// close session, a lot happens in the low range (0-0.3), it should change more the sound
-		Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.4, 0, 1));
+	//	Ndef(\softSin).set(\proximity, val.linlin(0.0, 0.4, 0, 1).postln);
 
 		// far session
-		//	Ndef(\softSin).set(\proximity, val.linlin(0, 0.9, 0, 1));
+			Ndef(\softSin).set(\proximity, val.linlin(0, 0.8, 0, 1));
 
 		//		Ndef(\softSin).set(\proximity, val.explin(0.001, 0.8, 0, 1));
 		Ndef(\softSin).set(\volume, val.linlin(0, 0.05, 0, 0.6));
@@ -293,8 +295,8 @@
 
 		if(val > threshold, {
 			time_elpsd = Main.elapsedTime.asInt - now;
-			if(time_elpsd > 3, {
-				Ndef(\blowing).set(\touched, (time_elpsd * 1).clip2(100));
+			if(time_elpsd > 1, {
+				Ndef(\blowing).set(\touched, (time_elpsd * 1).clip2(100).postln);
 			});
 		}, {
 			Ndef(\blowing).set(\touched, 1);
