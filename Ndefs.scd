@@ -113,6 +113,9 @@ Ndef(\softSin, { arg  proximity = 0.38, root = 53, volume = 0, lfoRate = 1, lfoA
 	sig = Mix.ar(sig);
 	//			sig = Splay.ar(sig);
 	sig = Pan2.ar(sig, SinOsc.kr(5,1.0pi), 0.1 );
+	// for mono uncomment next line
+
+//	sig = Mix.ar(sig);
 
 	Out.ar(~output, sig * volume);
 

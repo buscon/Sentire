@@ -3,7 +3,8 @@
 ~data_sel_cont = { arg val, which, threshold, now;
 	var res, time;
 
-	//	val.postln;which.postln;
+	//	val.postln;
+	//which.postln;
 
 	res = case
 	{ which == 0} {

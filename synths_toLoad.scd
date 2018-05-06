@@ -293,6 +293,9 @@ SynthDef(\sinTrig, { arg  freq = 58, volume = 0.5;
 	sig = Splay.ar(sig);
 	sig = LeakDC.ar(sig);
 	sig = HPF.ar(sig, 40);
+// for mono uncomment next line
+	//	sig = Mix.ar(sig);
+
 	Out.ar(~output, sig * volume);
 
 }).add;

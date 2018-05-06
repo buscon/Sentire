@@ -21,13 +21,13 @@ preamp
 0.052 threshold
 
 */
-Quarks.gui
 Ndef(\pulse).set(\volume, 0.5)
 
 Ndef(\pulse).get(\volume)
 MasterEQ.new
 (
 t = Task({
+
 	~output = 0;
 ~lower_thres = 0.03;
 ~upper_thres = 1.0;
