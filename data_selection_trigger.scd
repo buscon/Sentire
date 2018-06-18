@@ -96,9 +96,9 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 	}
 	{ which == 12} {
 		var freq = ~pentatonic_ratios.next * 42;
+		("blowing new freq: "++freq).postln;
 		Ndef(\blowing).set(\root, freq);
 		Synth(\blowing, [\root, freq , \proximity, rrand(0.5, 1.0)]);
-
 
 	}
 	{ which == 13} {
@@ -109,10 +109,10 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 
 	}
 	{ which == 14} {
-		var freq;
-		freq = rrand(100, 500).postln;
-		Ndef(\mod_bubble).set(\freq, freq);
-		Synth(\mod_bubble, [\freq, freq + rrand(100, 500).postln, \freq_mod, rrand(0, 20), \volume, 0.4]);
+		//var freq;
+		~freq = rrand(100, 500).postln;
+		Ndef(\mod_bubble).set(\freq, ~freq);
+		Synth(\mod_bubble, [\freq, ~freq + rrand(100, 500).postln, \freq_mod, rrand(0, 20), \volume, 0.4]);
 
 
 	}
@@ -126,9 +126,11 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 		var freq;
 		//	Synth(\timpano, [\ress, exprand(0.01, 7), \atk, exprand(0.001, 0.4).postln, \choose, [70,90,120, 150].choose]);
 		//	Synth(\help_Klank, [\i_freq, (Scale.whole.ratios.choose * 100).postln, \harm,Array.geom(4, 1, 1.61)]);
-		freq = exprand(100, 1000).postln;
-		Ndef(\pulse).set(\root_freq, freq );
-		Synth(\pulse_perc).set(\freq, freq);
+		~freq = exprand(100, 800).postln;
+	//	Ndef(\pulse).set(\volume2, 0);
+
+		Ndef(\pulse).set(\root_freq, ~freq );
+		Synth(\pulse_perc).set(\freq, ~freq);
 
 	}
 	{ which == 17} {
@@ -154,6 +156,8 @@ Synth(\wavPlayer,  [ \bufnum, ~rieko1, \speed , 1, \pos, rrand(0.0, 0.9), \dur ,
 	}
 	{ which == 23} {
 		var freq = ~pentatonic_ratios.next * 1;
+
+		"touch TwinP".postln;
 		Ndef(\twinP).set(\root_freq, freq, \proximity, 1);
 		Synth(\twinP, [\root_freq, freq , \proximity, rrand(0.5, 1.0).postln, \volume, 0.4]);
 

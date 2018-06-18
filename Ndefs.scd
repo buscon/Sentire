@@ -32,7 +32,7 @@ Out.ar(0, sig * volume);
 }).play;
 */
 
-Ndef(\pulse,{ arg  root_freq = 200, freq_mod = 0, delayTime = 0.03,amp = 1.0,attack = 0.01, freq_dev = 0.1, volume = 0;
+Ndef(\pulse,{ arg  root_freq = 200, freq_mod = 0, delayTime = 0.03,amp = 1.0,attack = 0.01, freq_dev = 0.1, volume = 0, volume2 = 1;
 	var ausgang,out2,env, freq;
 	// with touch, trigger a sequence of frequencies
 	freq = root_freq + freq_mod;
@@ -42,7 +42,7 @@ Ndef(\pulse,{ arg  root_freq = 200, freq_mod = 0, delayTime = 0.03,amp = 1.0,att
 	a = Pan2.ar(ToggleFF.ar(TDelay.ar(z,delayTime)) * SinOsc.ar(freq),
 		SinOsc.kr(3,0), 0.6);
 	ausgang = Pan2.ar(z, SinOsc.kr(5,1.0pi), 0.1 ) + a;
-	ausgang = ausgang.clip2(1) * 0.25 * volume;
+	ausgang = ausgang.clip2(1) * 0.25 * volume * volume2;
 
 	Out.ar(~output, ausgang);
 }).play;
@@ -95,7 +95,6 @@ Ndef(\softSin, { arg  proximity = 0.38, root = 53, volume = 0, lfoRate = 1, lfoA
 		0,
 
 		Array.fill(scale.size, {arg i;
-			//(proximity + list[i])
 			proximity.linlin(list[i], list[i+1], 0, 0.1 * proximity)
 		})
 

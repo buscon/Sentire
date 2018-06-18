@@ -22,10 +22,23 @@ preamp
 
 */
 Quarks.gui
-Ndef(\pulse).set(\volume, 0.5)
+Ndef(\twinP).set(\root_freq, 1);
+Ndef(\pulse).set(\volume2, 1.0)
 
 Ndef(\pulse).get(\volume)
+
+("".resolveRelative++"data_selection_untrigger.scd").openOS;
+("".resolveRelative++"data_selection_trigger.scd").openOS;
+("".resolveRelative++"ndefs.scd").openOS;
+("".resolveRelative++"data_selection_untrigger.scd").openOS;
+("".resolveRelative++"synths_toLoad.scd").openOS;
+
+Ndef(\pulse)
 MasterEQ.new
+		Ndef(\pulse).set(\volume2, 0);
+		~freq = exprand(100, 1000).postln;
+		Ndef(\pulse).set(\root_freq, ~freq );
+
 (
 t = Task({
 	~output = 0;

@@ -297,7 +297,7 @@
 		if(val > threshold, {
 			time_elpsd = Main.elapsedTime.asInt - now;
 			if(time_elpsd > 1, {
-				Ndef(\blowing).set(\touched, (time_elpsd * 1).clip2(100).postln);
+				Ndef(\blowing).set(\touched, (time_elpsd * 1).clip2(100));
 			});
 		}, {
 			Ndef(\blowing).set(\touched, 1);
@@ -378,16 +378,22 @@
 	{ which == 16} {
 		var time_elpsd;
 
-		Ndef(\pulse).set(\volume, val.linlin(0, 0.1, 0, 0.3) );
 
-		Ndef(\pulse).set(\freq_mod, val.linlin(0, 1, 0, 10) );
-		Ndef(\pulse).set(\delayTime, val.linlin(0, 1, 0.25, 0.01) );
+		Ndef(\pulse).set(\volume, val.linlin(0, 0.1, 0, 0.3) );
+//Sentire
+//		Ndef(\pulse).set(\freq_mod, val.linlin(0, 1, 0, 10) );
+//		Ndef(\pulse).set(\delayTime, val.linlin(0, 1, 0.25, 0.01) );
+
+
+				// Inteview mod
+		Ndef(\pulse).set(\freq_mod, val.linlin(0, 1, 0, 15) );
+		Ndef(\pulse).set(\delayTime, val.explin(0.01, 1, 1.45, 0.001) );
 
 		if(val > threshold, {
 			time_elpsd = Main.elapsedTime.asInt - now;
-			if(time_elpsd > 1, {
+			if(time_elpsd > 2, {
 				//			Ndef(\pulse).set(\delayTime, ((time_elpsd * 0.01) +0.03  ).clip2(1.0));
-				Ndef(\pulse).set(\freq_dev, ((time_elpsd * 0.3) +0.01  ).clip2(10.0));
+				Ndef(\pulse).set(\freq_dev, ((time_elpsd * 0.1) +0.01  ).clip2(10.0));
 
 			}, {
 				Ndef(\pulse).set(\delayTime, 0.03);
