@@ -28,7 +28,7 @@ Env([0, 0.4, 1.0], [0.5, 0.5], [-2, 6]).plot
 // Env([0, 0.3, 0.6, 1], [0.1, 0.1, 0.1], [2, 2, 2]).plot
 */
 (
-var triggered =0,  debug =0, time, now, prox = SensorDataExt.new, val,  trig = 0, scale;
+var triggered =0,  debug =0, time, now = 0, prox = SensorDataExt.new, val,  trig = 0, scale;
 
 ~lastVal =0;
 ~sound1 = 0;
@@ -80,7 +80,7 @@ OSCdef(\touch, {|msg, time|
 
 	if(trig > ~lastVal, {
 		time = Main.elapsedTime.asInt;
-now = (time)-0.1;
+		now = (time)-0.1;
 		"touched".postln;
 		~data_sel_trigger.value(~expMa, ~sound1, ~touch_thres );
 
@@ -110,8 +110,8 @@ p = NetAddr("127.0.0.1", 57120); // loopback
 p.sendMsg("/touch", 0.7);
 p.sendMsg("/touch", 0.9);
 
-		Synth(\wavPlayer, [\bufnum, ~martin, \speed, [1/16,1/8,1/4,1/2,0.75, 1].choose.postln, \pos, rrand(0.0, 0.95).postln, \vol, 1]);
-		Ndef(\pad).set(\master_vol, 0.5);
+Synth(\wavPlayer, [\bufnum, ~martin, \speed, [1/16,1/8,1/4,1/2,0.75, 1].choose.postln, \pos, rrand(0.0, 0.95).postln, \vol, 1]);
+Ndef(\pad).set(\master_vol, 0.5);
 
-			Ndef(\pad).set(\volume, 0.5);
+Ndef(\pad).set(\volume, 0.5);
 */
