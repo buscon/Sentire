@@ -80,7 +80,7 @@ OSCdef(\touch, {|msg, time|
 
 	if(trig > ~lastVal, {
 		time = Main.elapsedTime.asInt;
-		now = (time)-0.1;
+		now = (time) - 0.1;
 		"touched".postln;
 		~data_sel_trigger.value(~expMa, ~sound1, ~touch_thres );
 

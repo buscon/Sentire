@@ -29,7 +29,7 @@ Ndef(\pulse).get(\volume)
 
 ("".resolveRelative++"data_selection_untrigger.scd").openOS;
 ("".resolveRelative++"data_selection_trigger.scd").openOS;
-("".resolveRelative++"ndefs.scd").openOS;
+("".resolveRelative++"osc.scd").openOS;
 ("".resolveRelative++"data_selection_untrigger.scd").openOS;
 ("".resolveRelative++"synths_toLoad.scd").openOS;
 
